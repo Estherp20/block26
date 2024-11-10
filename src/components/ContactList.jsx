@@ -10,8 +10,8 @@ const dummyContacts = [
   ];
 
 //component
-export default function ContactList(){
-
+export default function ContactList({ setSelectedContactId }){
+  
     const [contacts, setContacts] = useState(dummyContacts);
     console.log("Contacts:", contacts)
 
@@ -19,7 +19,10 @@ export default function ContactList(){
         async function fetchContacts() {
           try {
             // your fetch logic will go here
-            const response = await fetch(`https://fsa-jsonplaceholder-69b5c48f1259.herokuapp.com/users`);
+            const response = await fetch(
+              
+              "https://fsa-jsonplaceholder-69b5c48f1259.herokuapp.com/users"
+            );
             console.log(response);
             const data = await response.json();
             setContacts(data);
@@ -30,6 +33,7 @@ export default function ContactList(){
         fetchContacts()
       }, []);
 
+    
       
     return (
         <table>
@@ -46,9 +50,10 @@ export default function ContactList(){
                 </tr>
                 {
                    contacts.map( (contact) => {
-                    return <ContactRow key={contact.id} contact={contact} />;
+                    return <ContactRow setSelectedContactId={setSelectedContactId} key={contact.id} contact={contact} />;
                    })}
             </tbody>
         </table>
     );
 }
+

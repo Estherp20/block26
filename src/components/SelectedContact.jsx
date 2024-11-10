@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 
 export default function SelectedContact({ selectedContactId, setSelectedContactId }) {
-    const [selectedContacts, setSelectedContactId] = useState(null);
+    const [selectedContact, setSelectedContact] = useState(null);
+
     useEffect(() => {
         async function fetchContact() {
             try {
                 const response = await fetch(
                     `https://fsa-jsonplaceholder-69b5c48f1259.herokuapp.com/users/${selectedContactId}`);
                 const results = await response.json();
-                setSelectedContactId(results);
+                setSelectedContact(results);
                 console.log('results: ', results)
             } catch (error) {
                 console.error(error)
@@ -16,5 +17,19 @@ export default function SelectedContact({ selectedContactId, setSelectedContactI
         }
         fetchContact();
     }, [selectedContactId]);
-} 
+
+
+    return(
+        <div>
+          {selectedContact && (
+            <div>
+              <h2>{selectedContact.name}</h2>
+              <p>{selectedContact.email}</p>
+              <p>{selectedContact.address.street}</p>
+              <p>{selectedContact.address.city}, {selectedContact.address.zipCode}</p>
+              <button onClick={() => setSelectedContactId(null)}>Back to Contacts</button>
+            </div>
+          )}
+        </div>
+    )} 
 
